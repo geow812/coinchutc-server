@@ -29,7 +29,7 @@ public class PartieGenerale extends Agent{
 			ACLMessage msg = myAgent.receive();
 			if (msg!=null && msg.getPerformative()==ACLMessage.INFORM)
 			{
-				System.out.println("message reçu de : "+msg.getSender().getLocalName());
+				System.out.println("message recu de : "+msg.getSender().getLocalName());
 				joueurs[compteur] = msg.getSender();
 
 				if (compteur==0)

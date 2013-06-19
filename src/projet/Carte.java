@@ -4,7 +4,7 @@ public class Carte {
 	private int valeur; 
 	private String couleur;
 	private String image;
-	private String joueur;
+	private String login;
 	
 	public Carte(){
 		
@@ -18,11 +18,11 @@ public class Carte {
 	}
 	
 	public void setLogin(String log){
-		joueur=log;
+		login=log;
 	}
 	
 	public String getLogin(){
-		return joueur;
+		return login;
 	}
 
 	public int getValeur() {

@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+@SuppressWarnings("serial")
 public class Partie extends GuiAgent{
 	private AID[] joueurs;
 	private AID[] equipe1;
@@ -38,28 +39,27 @@ public class Partie extends GuiAgent{
 		//ce comportement sera mis dans une autre classe, table d'attente (a voir niveau conception)
 
 		private boolean fini=false;
-		private int compteur=0;
+		private int compteur = 0;
 		@Override
 		public void action() {
-			// TODO Auto-generated method stub
 			ACLMessage msg = myAgent.receive();
-			if (msg!=null && msg.getPerformative()==ACLMessage.INFORM)
+			if (msg!=null && msg.getPerformative() == ACLMessage.INFORM)
 			{
-				System.out.println("message recu de : "+msg.getSender().getLocalName());
+				System.out.println("message recu de : "+ msg.getSender().getLocalName());
 
 				joueurs[compteur] = msg.getSender();
 
-				if (compteur==0)
-					equipe1[0]=msg.getSender();
+				if (compteur == 0)
+					equipe1[0] = msg.getSender();
 
-				else if (compteur==1)
-					equipe2[0]=msg.getSender();
+				else if (compteur == 1)
+					equipe2[0] = msg.getSender();
 
-				else if (compteur==2)
-					equipe1[1]=msg.getSender();
+				else if (compteur == 2)
+					equipe1[1] = msg.getSender();
 
-				else if (compteur==3)
-					equipe2[1]=msg.getSender();
+				else if (compteur == 3)
+					equipe2[1] = msg.getSender();
 
 				compteur++;
 			}
@@ -74,7 +74,11 @@ public class Partie extends GuiAgent{
 				{
 					ACLMessage message = new ACLMessage(ACLMessage.CONFIRM);
 					message.addReceiver(joueurs[i]);
-					message.setContent("chat over");
+					// Send the order of the four players
+					message.setContent(joueurs[0].getLocalName()+","
+					+joueurs[1].getLocalName()+","
+					+joueurs[2].getLocalName()+","
+					+joueurs[3].getLocalName());
 					send(message);
 				}
 				fini = true;
@@ -83,7 +87,6 @@ public class Partie extends GuiAgent{
 
 		@Override
 		public boolean done() {
-			// TODO Auto-generated method stub
 			return fini;
 		}
 
@@ -94,7 +97,6 @@ public class Partie extends GuiAgent{
 
 		@Override
 		public void action() {
-			// TODO Auto-generated method stub
 			for(int i=0;i<4;i++)
 			{
 
@@ -146,13 +148,12 @@ public class Partie extends GuiAgent{
 			}
 			
 			
-			// TODO Auto-generated method stub
 			ACLMessage msg = myAgent.receive();
 			if(msg!=null && msg.getPerformative()==ACLMessage.CONFIRM)
 			{
 				if (msg.getSender().equals(joueurs[ind]))
 				{
-					String s = msg.getContent(); // cha锟� JSON
+					String s = msg.getContent(); // chaine JSON
 					ObjectMapper mapper = new ObjectMapper();
 					try {
 						Annonce ann = mapper.readValue(s, Annonce.class);
@@ -211,7 +212,6 @@ public class Partie extends GuiAgent{
 
 		@Override
 		public boolean done() {
-			// TODO Auto-generated method stub
 			return fini;
 		}
 
@@ -236,18 +236,17 @@ public class Partie extends GuiAgent{
 				send(msg1);
 				compteur++;
 			}
-			// TODO Auto-generated method stub
 			ACLMessage msg = myAgent.receive();
 
 			if(msg!=null && msg.getPerformative()==ACLMessage.REQUEST && msg.getSender().equals(joueurs[ind1]))
 			{
-				System.out.println("message "+msg.getContent()+" re锟�de : "+msg.getSender().getLocalName());
-				String s = msg.getContent(); // cha锟� JSON
+				System.out.println("message " + msg.getContent()+" recu de : " + msg.getSender().getLocalName());
+				String s = msg.getContent(); // chaine JSON
 				ObjectMapper mapper = new ObjectMapper();
 				try {
 					Carte card = mapper.readValue(s, Carte.class);
 					tapis[ind]=card;
-					System.out.println("carte sur le tapis : "+tapis[ind].getValeur()+ " "+tapis[ind].getCouleur()+" jou锟�par : "+msg.getSender().getLocalName());
+					System.out.println("carte sur le tapis : "+tapis[ind].getValeur()+ " "+tapis[ind].getCouleur()+" jouee par : "+msg.getSender().getLocalName());
 					card.setLogin(msg.getSender().getLocalName());
 					ObjectMapper mapper2 = new ObjectMapper();
 					StringWriter sw = new StringWriter();
@@ -305,7 +304,6 @@ public class Partie extends GuiAgent{
 
 		@Override
 		public boolean done() {
-			// TODO Auto-generated method stub
 			return fini; 
 		}
 
@@ -456,6 +454,7 @@ public class Partie extends GuiAgent{
 
 	public void creerJeu()
 	{
+		@SuppressWarnings("unused")
 		int ind = 0;
 
 		for (int i=0; i<8;i++)
@@ -469,7 +468,7 @@ public class Partie extends GuiAgent{
 		for (int i=8; i<16;i++)
 		{
 			int img = i-1;
-			Carte card = new Carte(i-1,"Tr锟�e","res/drawable/"+img+"Trefle.png");
+			Carte card = new Carte(i-1,"Trefle","res/drawable/"+img+"Trefle.png");
 			//jeu[ind]=card;
 			jeu.add(card);
 			ind++;
@@ -681,7 +680,7 @@ public class Partie extends GuiAgent{
 
 		creerJeu();
 
-		System.out.println("Hello "+this.getAID());
+		System.out.println("Hello " + this.getAID());
 
 		SequentialBehaviour comportementSequentiel = new SequentialBehaviour();
 

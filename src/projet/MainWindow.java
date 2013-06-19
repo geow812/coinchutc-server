@@ -374,7 +374,7 @@ public class MainWindow extends JFrame implements PropertyChangeListener{
 		//pane1.add(img);
 
 		col.addItem("Pique");
-		col.addItem("Trèfle");
+		col.addItem("Trefle");
 		col.addItem("Carreau");
 		col.addItem("Coeur");
 		col.addItem("Tout-Atout");

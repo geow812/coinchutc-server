@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+@SuppressWarnings("serial")
 public class Joueur extends GuiAgent{
 	protected static final int ANNONCE_EVENT = 0;
 	protected static final int JEU_EVENT = 1;
@@ -31,7 +32,7 @@ public class Joueur extends GuiAgent{
 	private String prenom;
 	private PropertyChangeSupport changes;
 	private AID[] receivers = new AID[3];
-	private boolean rejoindre=false;
+	private boolean rejoindre = false;
 	private String image;
 	
 	private void setReceiver() {
@@ -59,7 +60,6 @@ public class Joueur extends GuiAgent{
 		ind = 0;
 	}
 
-	@SuppressWarnings("serial")
 	public class ChatBehaviour extends Behaviour{
 		private boolean fini = false;
 		@Override
@@ -86,7 +86,6 @@ public class Joueur extends GuiAgent{
 		
 	}
 	
-	@SuppressWarnings("serial")
 	public class RecupBehaviour extends Behaviour{
 		private boolean fini = false;
 		private int ind=0;
@@ -94,11 +93,11 @@ public class Joueur extends GuiAgent{
 		public void action() {
 			// TODO Auto-generated method stub
 			ACLMessage msg = myAgent.receive();
-			if(msg!=null && msg.getPerformative()==ACLMessage.INFORM)
+			if (msg!=null && msg.getPerformative()==ACLMessage.INFORM)
 			{
-				System.out.println("message re莽u : "+msg.getContent()+" par : "+myAgent.getLocalName());
+				System.out.println("message recu : " + msg.getContent() + " par : "+myAgent.getLocalName());
 				//main2 = msg.getContent();
-				String s = msg.getContent(); // cha锟� JSON
+				String s = msg.getContent(); // chaine JSON
 				ObjectMapper mapper = new ObjectMapper();
 				try {
 					Carte card = mapper.readValue(s, Carte.class);
@@ -124,7 +123,6 @@ public class Joueur extends GuiAgent{
 
 	}
 
-	@SuppressWarnings("serial")
 	public class AnnonceBehaviour extends Behaviour{
 		private boolean fini = false;
 		@Override
@@ -153,7 +151,6 @@ public class Joueur extends GuiAgent{
 
 	}
 
-	@SuppressWarnings("serial")
 	public class JouerBehaviour extends Behaviour{
 		private boolean fini=false;
 		private String annonce;
@@ -217,7 +214,7 @@ public class Joueur extends GuiAgent{
 				//changes.firePropertyChange("finJeu",null,"fin");
 				//fini=true;
 			}
-			else if(msg!=null && msg.getPerformative()==ACLMessage.CONFIRM)
+			else if (msg!=null && msg.getPerformative()==ACLMessage.CONFIRM)
 			{
 				SequentialBehaviour comportementSequentiel = new SequentialBehaviour();
 				//comportementSequentiel.addSubBehaviour(new ChatBehaviour());
@@ -250,7 +247,6 @@ public class Joueur extends GuiAgent{
 		}
 	}
 
-	@SuppressWarnings("serial")
 	public class NotifyOthersBehaviour extends OneShotBehaviour {
 
 		@Override
