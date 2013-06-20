@@ -137,16 +137,15 @@ public class Partie extends GuiAgent{
 		private int passe=0;
 		@Override
 		public void action() {
-			if(compteur==0)
+			if (compteur==0)
 			{
-				System.out.println("j'envoie un message d'annonce != "+joueurs[ind].getLocalName() );  
+				System.out.println("j'envoie un message d'annonce a "+joueurs[ind].getLocalName() );
 				ACLMessage msg1 = new ACLMessage(ACLMessage.INFORM);
 				msg1.addReceiver(joueurs[ind]);
 				msg1.setContent("jouer");
 				send(msg1);
 				compteur++;
 			}
-			
 			
 			ACLMessage msg = myAgent.receive();
 			if(msg!=null && msg.getPerformative()==ACLMessage.CONFIRM)
@@ -184,10 +183,11 @@ public class Partie extends GuiAgent{
 							for (int i=0; i<4;i++)
 							{
 								ACLMessage message = new ACLMessage(ACLMessage.CONFIRM);
-								String s1 = ""+annonce.getValeur();
+								String s1 = "" + annonce.getValeur();
 								message.setContent(s1);
 								message.addReceiver(joueurs[i]);
 								send(message);
+								System.out.println("confirm final annonce to "+ joueurs[i].getLocalName() );
 							}
 							System.out.println(annonce.getMaitre()[0]);
 							System.out.println(annonce.getMaitre()[1]);
@@ -199,8 +199,9 @@ public class Partie extends GuiAgent{
 					catch(Exception ex) {}
 					System.out.println("Annonce en cours : "+annonce.getValeur()+" "+annonce.getCouleur());
 					ind++;
+					System.out.println("ind = "+ ind );
 					compteur=0;
-					if(ind>3 && fini==false)
+					if (ind > 3 && fini==false)
 					{
 						compteur=0;
 						ind=0;
@@ -229,7 +230,7 @@ public class Partie extends GuiAgent{
 		public void action() {
 			if(compteur==0)
 			{
-				System.out.println("j'envoie un message d'annonce != "+joueurs[ind].getLocalName() ); 
+				System.out.println("j'envoie un message de jouer a "+joueurs[ind].getLocalName() ); 
 				ACLMessage msg1 = new ACLMessage(ACLMessage.INFORM);
 				msg1.addReceiver(joueurs[ind1]);
 				msg1.setContent("jouer");

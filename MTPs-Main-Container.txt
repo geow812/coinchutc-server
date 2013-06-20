@@ -1,1 +1,1 @@
-http://192.168.1.36:7778/acc
+http://wangyiou-hz-3.etu.utc:7778/acc
